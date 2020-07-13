@@ -23,4 +23,4 @@ Funciones y herramientas utilizadas en cada una
 - Traza del balon y calculo de velocidad - Uso de álgebra y geometría basica (Fórmula de Velocidad, Distancia).
 
 ### Resultado
-<div style="width: 100%; height: 0px; position: relative; padding-bottom: 55.000%;"><iframe src="https://streamable.com/e/ins44d" frameborder="0" width="100%" height="100%" allowfullscreen style="width: 100%; height: 100%; position: absolute;"></iframe></div>
+[Video](https://streamable.com/e/ins44d)
