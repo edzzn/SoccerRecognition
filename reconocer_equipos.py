@@ -15,7 +15,7 @@ def contadorMascara(jugador_img, player_hsv, lower_color, upper_color):
 
 def reconocer_equipo(image):
     equipo = ""
-    team_color = (0, 0, 0)
+    team_color = (255, 0, 0)
 
     lower_verde = np.array([40, 40, 40])
     upper_verde = np.array([70, 255, 255])

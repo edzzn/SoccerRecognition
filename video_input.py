@@ -2,10 +2,11 @@ import numpy as np
 import cv2
 import time
 import datetime
+import imutils
 
 
 class VideoIn():
-    def __init__(self, running, queue, top=0, left=0, width=800, height=500, hasTreadStarted=False, recording=False):
+    def __init__(self, running, queue, top=0, left=0, width=1200, height=675, hasTreadStarted=False, recording=False):
         self.running = running
         self.recording = recording
         self.queue = queue
@@ -22,12 +23,14 @@ class VideoIn():
         self.source = ''
         self.video_cap = None
 
-    def _processingFrame(self, frame):
+    def _processingFrame(self, frame, frame_counter):
         # try:
         img = cv2.cvtColor(frame, cv2.COLOR_BGRA2BGR)
+        # print(f"fc: {frame_counter}")
         if (self.detector):
             img = self.detector.detect(
                 img,
+                frame_counter=frame_counter
             )
         # if (img.shape)
         # print(img.shape[2])
@@ -40,6 +43,9 @@ class VideoIn():
         #     self.height = height
 
         self._addToQueue(img)
+
+        # if (isinstance(img, (np.ndarray, np.generic))):
+        #     print('_processingFrame', img.shape)
         if(self.recording):
             self._record(img)
         if(self.should_take_screenshot):
@@ -64,17 +70,24 @@ class VideoIn():
                 print("Error en cargar archivo")
             frame_counter = 0
             while(self.video_cap.isOpened()):
-                if (self.width != self.video_cap.get(3) or self.height != self.video_cap.get(4)):
-                    self.width = int(self.video_cap.get(3) * 0.80)
-                    self.height = int(self.video_cap.get(4) * 0.80)
-
                 while(self.running):
+                    # if frame_counter < 2073:
+                    #     self.video_cap.set(cv2.CAP_PROP_POS_FRAMES, 2073)
+                    #     frame_counter = 2073
+
                     if self.queue.qsize() < 10:
                         ret, frame = self.video_cap.read()
                         if ret == True:
-                            frame_counter += 1
-                            self._processingFrame(frame)
 
+                            frame = imutils.resize(frame, width=1200)
+                            if (isinstance(frame, (np.ndarray, np.generic))):
+                                # print(frame.shape)
+                                self.width,  self.height, _ = frame.shape
+
+                            self._processingFrame(frame, frame_counter)
+                            frame_counter += 1
+                        print(
+                            f"{frame_counter}/{self.video_cap.get(cv2.CAP_PROP_FRAME_COUNT)}")
                         if frame_counter == self.video_cap.get(cv2.CAP_PROP_FRAME_COUNT):
                             frame_counter = 0  # Or whatever as long as it is the same as next line
                             self.video_cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
@@ -84,6 +97,9 @@ class VideoIn():
 
     def _record(self, image):
         self.img_counter += 1
+
+        if (isinstance(image, (np.ndarray, np.generic))):
+            print('_record', image.shape)
         if(self.writer):
             self.writer.write(image[..., :3])
 
@@ -92,10 +108,16 @@ class VideoIn():
         filename = f'records/record-{self.counter}.avi'
         codec = cv2.VideoWriter_fourcc('X', 'V', 'I', 'D')
         framerate = 25
-        # resolution = (self.width,  self.height)
-        resolution = (1280, 720)
+        resolution = (self.height, self.width)
+        print(f"resolution {resolution}")
+        # resolution = (1280, 720)
+        # resolution = (1280, 720)
         self.writer = cv2.VideoWriter(filename, codec, framerate, resolution)
         self.counter += 1
+
+    def _stop_recording(self):
+        if(self.writer):
+            self.writer.release()
 
     def stop(self):
         if(self.writer):

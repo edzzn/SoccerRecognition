@@ -12,8 +12,9 @@ from pathlib import Path
 import time
 
 capture_thread = None
-VIDEO_NAME = './b_r.mp4'
-VIDEO_FPS = 25
+# VIDEO_NAME = './b_r.mp4'
+VIDEO_NAME = './Final-lower-low.mp4'
+VIDEO_FPS = 24
 
 q = Queue.Queue()
 video_in = VideoIn(False, q)
@@ -37,6 +38,7 @@ class Ui(QtWidgets.QMainWindow):
         self.timer = QtCore.QTimer(self)
         self.timer.timeout.connect(self.update_frame)
         self.timer.start(1000/VIDEO_FPS)
+        # self.timer.start(1000)
 
     def start_clicked(self):
         global video_in
@@ -61,7 +63,7 @@ class Ui(QtWidgets.QMainWindow):
             self.recordButton.setText('Grabar')
             self.recordButton.setChecked(False)
             video_in.recording = False
-            video_in.stop()
+            video_in._stop_recording()
 
         else:
             self.recordButton.setText('Detener')
@@ -115,19 +117,19 @@ class Ui(QtWidgets.QMainWindow):
     def _np_image_to_q_image(self, image):
         global video_in
 
-        window_width = video_in.width
-        window_height = video_in.height
+        # window_width = video_in.width
+        # window_height = video_in.height
 
-        img_height, img_width, _img_colors = image.shape
-        scale_w = float(window_width) / float(img_width)
-        scale_h = float(window_height) / float(img_height)
-        scale = min([scale_w, scale_h])
+        # img_height, img_width, _img_colors = image.shape
+        # scale_w = float(window_width) / float(img_width)
+        # scale_h = float(window_height) / float(img_height)
+        # scale = min([scale_w, scale_h])
 
-        if scale == 0:
-            scale = 1
+        # if scale == 0:
+        #     scale = 1
 
-        image = cv2.resize(image, None, fx=scale, fy=scale,
-                           interpolation=cv2.INTER_CUBIC)
+        # image = cv2.resize(image, None, fx=scale, fy=scale,
+        #                    interpolation=cv2.INTER_CUBIC)
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         height, width, bpc = image.shape
         bytes_per_line = bpc * width

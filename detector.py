@@ -18,10 +18,12 @@ import random
 
 from reconocer_equipos import reconocer_equipo
 from reconocer_numeros import reconocer_numero
-from ball_speed import Ball
+from ball_speed import Ball, write_ball_speed
+from lineas_gol import LineasGol
+from reconocimiento_facial.reconocimiento_facial import ReconocimientoFacial
 
 batch_size = 1
-confidence = 0.5
+confidence = 0.3
 nms_thesh = 0.4
 resolution = 416
 start = 0
@@ -36,6 +38,8 @@ classes = load_classes('data/coco.names')
 colors = pkl.load(open("pallete", "rb"))
 
 ball = Ball()
+lineaGol = LineasGol()
+ball_speed = 0
 
 
 class Detector:
@@ -55,8 +59,9 @@ class Detector:
             self.model.cuda()
 
         self.model.eval()
+        self.reconocimiento_facil = ReconocimientoFacial()
 
-    def detect(self, frame, debugFrames=[]):
+    def detect(self, frame, debugFrames=[], frame_counter=0):
 
         img = prep_image(frame, self.inp_dim)
 
@@ -92,13 +97,19 @@ class Detector:
             output[i, [2, 4]] = torch.clamp(
                 output[i, [2, 4]], 0.0, im_dim[i, 1])
 
-        list(map(lambda x: write(x, frame), output))
+        if(self.showCordenates):
+            frame = lineaGol.add_linea_gol(frame, frame_counter)
+
+        list(map(lambda x: write(x, frame, self.showTags,
+                                 self.reconocimiento_facil), output))
 
         return frame
 
 
-def write(x, results):
+def write(x, results, showTags, reconocimiento_facil):
     global ball
+    global player_counter
+    global ball_speed
 
     c1 = tuple(x[1:3].int())
     c2 = tuple(x[3:5].int())
@@ -112,22 +123,33 @@ def write(x, results):
         label = 'Persona' if label == 'person' else 'Balon'
 
         if label == 'Balon':
-            speed = ball.get_ball_speed(c1, c2)
-
-            if speed != 0:
-                label += str(speed)
+            img, ball_speed = ball.draw(img, c1, c2, color)
+        write_ball_speed(ball_speed, img)
 
         if label == 'Persona':
+            # if abs(c1[0] - c2[0]) > 200:
+            #     return img
+
             cropped_image = crop_iamge(img, c1, c2)
+            # Saving cropped image
+            # cv2.imwrite(f"./personas/j-{player_counter}.jpg", cropped_image)
+
+            # player_counter += 1
+
             label, color = reconocer_equipo(cropped_image)
+            if showTags:
+                # numero = reconocer_numero(cropped_image)
+                name = reconocimiento_facil.detect(cropped_image)
+                if (name != '' and name != None):
+                    label = f"{name} - {label}"
 
-        cv2.rectangle(img, c1, c2, color, 1)
+            cv2.rectangle(img, c1, c2, color, 1)
 
-        t_size = cv2.getTextSize(label, cv2.FONT_HERSHEY_PLAIN, 1, 1)[0]
-        c2 = c1[0] + t_size[0] + 3, c1[1] + t_size[1] + 4
-        cv2.rectangle(img, c1, c2, color, -1)
-        cv2.putText(img, label, (c1[0], c1[1] + t_size[1] + 4),
-                    cv2.FONT_HERSHEY_PLAIN, 1, [225, 255, 255], 1)
+            t_size = cv2.getTextSize(label, cv2.FONT_HERSHEY_PLAIN, 1, 1)[0]
+            c2 = c1[0] + t_size[0] + 3, c1[1] + t_size[1] + 4
+            cv2.rectangle(img, c1, c2, color, -1)
+            cv2.putText(img, label, (c1[0], c1[1] + t_size[1] + 4),
+                        cv2.FONT_HERSHEY_PLAIN, 1, [225, 255, 255], 1)
     return img
 
 
