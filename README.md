@@ -16,11 +16,30 @@ Herramientas utilizadas:
 - YOLO v3
 
 Funciones y herramientas utilizadas en cada una
-- Identificacion de Jugadores y Balon - YOLO v3.
+- Identificacion de Jugadores (Uniforme y Numero) y Balon - YOLO v3 e Identificacion de Equipos en base al uniforme - Delimitacion de Colores usando el esquema de colores HSV (OpenCV).
+
+  ![HSV](https://user-images.githubusercontent.com/38579765/87358132-cbfee780-c52a-11ea-9a74-dce5b913afec.png)
+  ![EQUIPO1](https://user-images.githubusercontent.com/38579765/87358199-f05ac400-c52a-11ea-8890-c687a965468d.png)
+  ![EQUIPO3](https://user-images.githubusercontent.com/38579765/87358214-f51f7800-c52a-11ea-9eaf-809124471ad9.png)
+  ![EQUIPO2](https://user-images.githubusercontent.com/38579765/87358215-f650a500-c52a-11ea-9bb5-b2bcdfe90319.png)
+  ![OCR](https://user-images.githubusercontent.com/38579765/87358316-28620700-c52b-11ea-90be-c45b26372893.png)
+  
 - Reconocimiento facial en imágenes en primera camara- facial_recognition.
+  
+  ![RECONOCIMIENTO](https://user-images.githubusercontent.com/38579765/87358309-239d5300-c52b-11ea-9c8a-83171ff81d4e.png)
+  
+- Reconocimiento de Gol
+  
+  ![GOL](https://user-images.githubusercontent.com/38579765/87358288-1a13eb00-c52b-11ea-89b7-e27e204bbcb9.png)
+
 - Demarcacion de lineas del campo de juego y analisis de gol - OpenCV - HoughLines.
-- Identificacion de Equipos en base al uniforme - Delimitacion de Colores usando el esquema de colores HSV (OpenCV).
+  
+  ![LINEA](https://user-images.githubusercontent.com/38579765/87358300-1ed89f00-c52b-11ea-9da3-43533d03f347.png)
+
 - Traza del balon y calculo de velocidad - Uso de álgebra y geometría basica (Fórmula de Velocidad, Distancia).
+  
+  ![TRAZA](https://user-images.githubusercontent.com/38579765/87358313-26984380-c52b-11ea-931a-15782ba8ba12.png)
+  ![TRAZA2](https://user-images.githubusercontent.com/38579765/87358521-9d354100-c52b-11ea-9b44-0ee3bf5fc3cb.png)
 
 ### Resultado
 [Video](https://streamable.com/e/ins44d)
