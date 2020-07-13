@@ -1,4 +1,6 @@
-# Tracking de un partido de futbol-soccer
+# Procesamiento de Video de un Partido de Fútbol
+## Object Tracking 
+*Vision por Computadora*
 ### Autores: 
 - Abad Freddy, Reinozo Edisson, Santos David
 
