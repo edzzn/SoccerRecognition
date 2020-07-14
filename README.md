@@ -4,7 +4,7 @@
 ### Autores: 
 - Abad Freddy, Reinozo Edisson, Santos David
 
-##### Descripcion detallada: [Informe](www.google.com)
+##### Descripcion detallada: [Informe](https://github.com/edzzn/SoccerRecognition/blob/master/Informe/Informe%20GPC%20Final-%20Abad%20Reinozo%20Santos.pdf)
 
 En el contexto del mundo globalizado actual, donde una persona de un lugar recóndito puede tener acceso a un amplio repertorio de campeonatos de fútbol, surge la necesidad de procesar estos juegos para generar conocimiento en base a la información existente. El procesamiento de video conforma una disciplina amplia basada en el procesamiento de imágenes. Procesar un partido de fútbol significa identificar a los *jugadores en campo, su número de camiseta, la ocurrencia de alguna falta de juego o la obtención de un gol*. 
 
