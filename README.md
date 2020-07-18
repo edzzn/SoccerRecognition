@@ -44,4 +44,4 @@ Funciones y herramientas utilizadas en cada una
   ![TRAZA2](https://user-images.githubusercontent.com/38579765/87358521-9d354100-c52b-11ea-9b44-0ee3bf5fc3cb.png)
 
 ### Resultado
-[Video](https://streamable.com/e/ins44d)
+[Video](https://youtu.be/ztVkKfbCRrA)
