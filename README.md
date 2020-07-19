@@ -2,7 +2,7 @@
 ## Object Tracking 
 *Vision por Computadora*
 ### Autores: 
-- Abad Freddy, Reinozo Edisson, Santos David
+- [Abad Freddy](https://github.com/FreddieAbad), [Reinozo Edisson](https://github.com/edzzn)
 
 ##### Descripcion detallada: [Informe](https://github.com/edzzn/SoccerRecognition/blob/master/Informe/Informe%20GPC%20Final-%20Abad%20Reinozo%20Santos.pdf)
 
